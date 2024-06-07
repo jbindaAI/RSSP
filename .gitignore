@@ -2,4 +2,9 @@ venv
 __pycache__
 static/rssp.png
 input.fasta
+results/
+
+# Models wheels
+mxfold2-0.1.2-cp310-cp310-manylinux_2_17_x86_64.whl
+
 

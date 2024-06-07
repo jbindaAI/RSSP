@@ -1,10 +1,20 @@
 
-from fastapi import FastAPI, Request, Query,  Form, File, UploadFile
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request,  Form, File, UploadFile
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from typing import Optional, Dict
+from models.mx_fold2 import run_mxfold2
+from pathlib import Path
+import pickle
+import uuid
 import os
+
+
+# Creating cache folder:
+Path("file_cache/").mkdir(parents=True, exist_ok=True)
+# Creating results folder:
+Path("results/").mkdir(parents=True, exist_ok=True)
 
 
 def parse_fasta(fasta_block:str)->Dict[str, str]:
@@ -19,7 +29,17 @@ def parse_fasta(fasta_block:str)->Dict[str, str]:
         else:
             temp=fasta[1].strip()
         sqs[fasta[0].strip()]=temp
+    # Cache clean fasta file, for models:
+    with open("file_cache/cache.fasta", "w") as f:
+        for key in sqs.keys():
+            f.write(">"+key+"\n") # Header
+            f.write(sqs[key]+"\n") # Sequence
     return sqs
+
+
+def generate_unique_id():
+    unique_id = uuid.uuid4()
+    return f"{unique_id}"
 
 
 app = FastAPI()
@@ -46,125 +66,60 @@ async def predict(request: Request,
     if fasta_file.file and fasta_file.filename:
         file_content = await fasta_file.read()
         file_content = file_content.decode("utf-8")
-        sqs = parse_fasta(file_content)
+        parse_fasta(file_content)
     else:
-        sqs = parse_fasta(seq_input)
-        print(sqs)
+        parse_fasta(seq_input)
+    
 
     res = {}
     if MXFold2:
-        #mx_fold_res =
-        #res["mx_fold"]=[mx_fold_res]
-        ...
+        mx_fold_res = run_mxfold2("file_cache/cache.fasta")
+        # Parsing results:
+        mx_fold_res = mx_fold_res.stdout.split(">")[1:]
+        temp_dict={}
+        for elt in mx_fold_res:
+            content = elt.split("\n")
+            temp_dict[content[0]] = (content[1].strip(), content[2].split()[0].strip())
+        res["MXFold2"] = temp_dict
+
     if RNA_Fold:
         #rna_fold_res = 
         #res["rna_fold"]=rna_fold_res
         ...
+
     if Model_3:
         #model3_res =
         #res["model3"]=model3_res
         ...
+
     if Model_4:
         #model4_res =
         #res["model4"]=model4_res
         ...
     
-    # visualization
-    for key in res.keys():
-        res[key]
+    # There should be dropped results id to make unique res files.
+    ID = generate_unique_id()
+    # Saving user results:
+    with open(f"results/{ID}.pkl", "wb") as file:
+        pickle.dump(res, file)
+    
+    # After predictions are done, delete cached fasta files:
+    os.remove("file_cache/cache.fasta")
+    
+    #Initial header to plot results:
+    headers = list(res[list(res.keys())[0]].keys())
+    header = headers[0]
+    return RedirectResponse(url=f'/results/{ID}/{header}', status_code=303)
 
 
+@app.get("/results/{ID}/{header}", response_class=HTMLResponse)
+def results(request: Request, ID: str, header: str):
+    with open(f"results/{ID}.pkl", "rb") as file:
+        res = pickle.load(file)
+        headers = list(res[list(res.keys())[0]].keys())
+    to_send={}
+    for method in res.keys():
+        to_send[method]=res[method][header]
     return templates.TemplateResponse(
-        name="home.html", request=request)
-
-
-# @app.get("/visualize_scan/{PATIENT_ID}", response_class=HTMLResponse)
-# def visualize_scan(request: Request, PATIENT_ID: str, SLC: int=Query(150)):
-#     scan_pt = load_dicom_into_tensor(patient_id=PATIENT_ID)
-#     max_depth = scan_pt.shape[-1]
-#     scan_str = plot_scan(scan_pt=scan_pt, slc=SLC)
-
-#     return templates.TemplateResponse(
-#         name="scan_slicer.html", request=request, context={"PATIENT_IDs":PATIENT_IDs,
-#                                                     "PATIENT_ID":PATIENT_ID, 
-#                                                     "SLC": SLC,
-#                                                     "max_depth": max_depth,
-#                                                     "scan_plot": scan_str})
-
-
-# @app.get("/extract_nodules/{PATIENT_ID}", response_class=HTMLResponse)
-# def extract_nodules(request: Request, PATIENT_ID: str):
-#     scan = pl.query(pl.Scan).filter(pl.Scan.patient_id == f"LIDC-IDRI-{PATIENT_ID}").first()
-#     nodules = scan.cluster_annotations()
-#     NOD_icons_lst, NOD_crops_ref = process_nodules(nodules=nodules, PATIENT_ID=PATIENT_ID)
-#     NODULES=zip(NOD_icons_lst, NOD_crops_ref)
-#     # caching NODULES to retrieve later:
-#     with open("cache/nodules_lst.pkl", "wb") as file:
-#         pickle.dump(NODULES, file)
-
-#     return templates.TemplateResponse(
-#         name="nodules_list.html", request=request, context={"PATIENT_IDs":PATIENT_IDs,
-#                                                     "NODULES": NODULES
-#                                                     })
-
-
-# @app.get("/list_nodules/", response_class=HTMLResponse)
-# def list_nodules(request: Request):
-#     with open("cache/nodules_lst.pkl", "rb") as file:
-#         NODULES = pickle.load(file)
-#     return templates.TemplateResponse(
-#         name="nodules_list.html", request=request, context={"PATIENT_IDs":PATIENT_IDs,
-#                                                     "NODULES": NODULES
-#                                                     })
-
-
-# @app.get("/visualize_nodule/{NOD_crop}", response_class=HTMLResponse)
-# def visualize_nodule(request: Request, NOD_crop: str, SLC: int=Query(17, gt=-1, le=31)):
-#     # when user decide to analyze Nodule, it deletes cached tensors of patients scans other than chosen one.
-#     cached_files = os.listdir("cache/")
-#     for file in cached_files:
-#         if file != "crops" and file != "nodules_lst.pkl":
-#             os.remove("cache/"+file)
-#     # loading and visualizing nodule
-#     original_img = load_img(crop_path=f"cache/crops/{NOD_crop}.pt", crop_view="axial", slice_=SLC, return_both=False, device="cpu")
-#     img_str = plot_nodule(original_img)
-
-#     # Context to return to Nodule lst:
-#     with open("cache/nodules_lst.pkl", "rb") as file:
-#         NODULES = pickle.load(file)
-
-#     return templates.TemplateResponse(
-#         name="nodule_slicer.html", request=request, context={"NOD_crop": NOD_crop,
-#                                                              "SLC":SLC,
-#                                                              "NODULES": NODULES,
-#                                                              "orig_plot": img_str})
-
-
-# @app.get("/predict/{NODULE}/{SLICE}", response_class=HTMLResponse)
-# def predict(request: Request, NODULE: str, SLICE: int, TASK: str=Query(...)):
-#     original_img, attention_map, CDAM_maps, model_output = XMED.model_pipeline(NODULE=NODULE, SLICE=SLICE, TASK=TASK)
-
-#     if TASK == "Classification":
-#         PREDS = round(model_output, 2)
-#         res_str = plot_res_class(maps=[attention_map, CDAM_maps])
-#         res_str_att = False
-#     else:
-#         PREDS = model_output
-#         res_str = plot_CDAM_reg(maps=[CDAM_maps], preds=PREDS)
-#         res_str_att = plot_att_reg(attention_map=attention_map)
-
-#     img_str = plot_nodule(original_img)
-
-#     return templates.TemplateResponse(
-#         name="nodule_slicer.html", request=request, context={"NOD_crop": NODULE, 
-#                                                     "SLC": SLICE, 
-#                                                     "TASK": TASK,
-#                                                     "PREDS": PREDS,  
-#                                                     "orig_plot": img_str, 
-#                                                     "res_plot": res_str,
-#                                                     "reg_att_plot": res_str_att
-#                                                     })
-
-
-
+        name="results.html", request=request, context={"res_dict":to_send, "ID":ID, "header":header, "headers":headers})
 
