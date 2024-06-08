@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from typing import Optional, Dict
 from models.mx_fold2 import run_mxfold2
+from models.knot_fold import run_knotfold
 from pathlib import Path
 import pickle
 import uuid
@@ -58,7 +59,7 @@ async def predict(request: Request,
             seq_input:Optional[str]=Form(None), 
             fasta_file:Optional[UploadFile]=File(...),
             MXFold2:Optional[bool]=Form(False),
-            RNA_Fold:Optional[bool]=Form(False),
+            KnotFold:Optional[bool]=Form(False),
             Model_3:Optional[bool]=Form(False),
             Model_4:Optional[bool]=Form(False)
             ):
@@ -82,10 +83,9 @@ async def predict(request: Request,
             temp_dict[content[0]] = (content[1].strip(), content[2].split()[0].strip())
         res["MXFold2"] = temp_dict
 
-    if RNA_Fold:
-        #rna_fold_res = 
-        #res["rna_fold"]=rna_fold_res
-        ...
+    if KnotFold:
+        knot_fold_res = run_knotfold("file_cache/cache.fasta")
+        res["KnotFold"]=knot_fold_res
 
     if Model_3:
         #model3_res =
