@@ -79,12 +79,7 @@ async def predict(request: Request,
     if MXFold2:
         mx_fold_res = run_mxfold2("file_cache/cache.fasta")
         # Parsing results:
-        mx_fold_res = mx_fold_res.stdout.split(">")[1:]
-        temp_dict={}
-        for elt in mx_fold_res:
-            content = elt.split("\n")
-            temp_dict[content[0]] = (content[1].strip(), content[2].split()[0].strip())
-        res["MXFold2"] = temp_dict
+        res["MXFold2"] = mx_fold_res
 
     if KnotFold:
         knot_fold_res = run_knotfold("file_cache/cache.fasta")
