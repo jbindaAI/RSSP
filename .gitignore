@@ -5,9 +5,13 @@ input.fasta
 results/
 file_cache
 
-# Models wheels
+# Models source
 mxfold2-0.1.2-cp310-cp310-manylinux_2_17_x86_64.whl
 KnotFold
+UFold
+RNAstructureLinuxTextInterfaces64bit.tgz
+RNAstructureSource.tgz
+RNAstructure
 
 # temp
 knocik_cache.py
