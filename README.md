@@ -14,7 +14,7 @@ This repository contains the final project for Architecture of large projects in
 
 
 ## Features
-- **RNA Sequence Input**: Load RNA sequences from various formats.
+- **RNA Sequence Input**: Load RNA sequences from FASTA file or enter sequences directly in FASTA format.
 - **Tool Integration**: Seamlessly run MXFold2, KnotFold, and RNAFold on the input sequences.
 - **Dot-Bracket Notation**: Display the predictions in dot-bracket format for easy analysis.
 - **Result Visualization**: Generate visualizations to help interpret the predicted RNA secondary structures.
