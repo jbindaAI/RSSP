@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from typing import Optional, Dict
 from models.mx_fold2 import run_mxfold2
 from models.knot_fold import run_knotfold
+from models.rnafold import run_rnafold
 from pathlib import Path
 import pickle
 import uuid
@@ -61,7 +62,7 @@ async def predict(request: Request,
             MXFold2:Optional[bool]=Form(False),
             KnotFold:Optional[bool]=Form(False),
             Model_3:Optional[bool]=Form(False),
-            Model_4:Optional[bool]=Form(False)
+            RNAFold:Optional[bool]=Form(False)
             ):
 
     if fasta_file.file and fasta_file.filename:
@@ -92,10 +93,9 @@ async def predict(request: Request,
         #res["model3"]=model3_res
         ...
 
-    if Model_4:
-        #model4_res =
-        #res["model4"]=model4_res
-        ...
+    if RNAFold:
+        rnafold_res = run_rnafold("file_cache/cache.fasta")
+        res["RNAFold"]=rnafold_res
     
     # There should be dropped results id to make unique res files.
     ID = generate_unique_id()

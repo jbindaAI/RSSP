@@ -2,7 +2,7 @@ import subprocess
 import torch
 import os
 
-def run_knotfold(input_file, output_directory="file_cache", use_cuda=True):
+def run_knotfold(input_file, output_directory="file_cache"):
     with open(input_file, "r") as file:
         sequences = file.read().split(">")[1:]
     res_dict={}
