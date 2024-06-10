@@ -4,7 +4,7 @@ import subprocess
 def run_ufold(input_file):
 
     # from UFold README: put fasta file (named input.txt) into data folder
-    shutil.copy(input_file, 'models/UFold/data/input.txt')
+    #shutil.copy(input_file, 'models/UFold/data/input.txt')
     command = ['python', 'models/UFold/ufold_predict.py']
     subprocess.run(command, capture_output=True, text=True)
 
@@ -19,5 +19,5 @@ def run_ufold(input_file):
 
 
 # Example usage
-# res = run_ufold('input.fasta')
-# print(res)
+res = run_ufold('sequences.fasta')
+print(res)
