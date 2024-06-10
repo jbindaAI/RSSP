@@ -11,6 +11,7 @@ import pickle
 import uuid
 import os
 
+from models.rnastructure_fold import run_rnastructure_fold
 
 # Creating cache folder:
 Path("file_cache/").mkdir(parents=True, exist_ok=True)
@@ -55,14 +56,14 @@ def home(request: Request):
 
 
 @app.post("/predict", response_class=HTMLResponse)
-async def predict(request: Request, 
-            seq_input:Optional[str]=Form(None), 
-            fasta_file:Optional[UploadFile]=File(...),
-            MXFold2:Optional[bool]=Form(False),
-            KnotFold:Optional[bool]=Form(False),
-            Model_3:Optional[bool]=Form(False),
-            Model_4:Optional[bool]=Form(False)
-            ):
+async def predict(request: Request,
+                  seq_input:Optional[str]=Form(None),
+                  fasta_file:Optional[UploadFile]=File(...),
+                  MXFold2:Optional[bool]=Form(False),
+                  KnotFold:Optional[bool]=Form(False),
+                  RNAstructure:Optional[bool]=Form(False),
+                  Model_4:Optional[bool]=Form(False)
+                  ):
 
     if fasta_file.file and fasta_file.filename:
         file_content = await fasta_file.read()
@@ -87,10 +88,9 @@ async def predict(request: Request,
         knot_fold_res = run_knotfold("file_cache/cache.fasta")
         res["KnotFold"]=knot_fold_res
 
-    if Model_3:
-        #model3_res =
-        #res["model3"]=model3_res
-        ...
+    if RNAstructure:
+        rnastructure_res = run_rnastructure_fold("file_cache/cache.fasta")
+        res["RNAstructure"]=rnastructure_res
 
     if Model_4:
         #model4_res =
