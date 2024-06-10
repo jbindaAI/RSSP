@@ -23,8 +23,10 @@ def run_rnastructure_fold(
         )
     elif not os.environ.get('DATAPATH'):
         os.environ['DATAPATH'] = os.path.join(rnastructure_path, 'data_tables')
-    fold_command = 'Fold' if not rnastructure_path else os.path.join(rnastructure_path, 'exe/Fold')
-    ct2dot_command = 'ct2dot' if not rnastructure_path else os.path.join(rnastructure_path, 'exe/ct2dot')
+    # Set the RNAstructure path to the parent directory of the data_tables directory
+    rnastructure_path = os.path.dirname(os.environ['DATAPATH'])
+    fold_command = os.path.join(rnastructure_path, 'exe/Fold')
+    ct2dot_command = os.path.join(rnastructure_path, 'exe/ct2dot')
 
     # Read the input file
     with open(input_file, "r") as file:
