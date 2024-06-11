@@ -20,7 +20,7 @@ This repository contains the final project for Architecture of large projects in
 
 ## Features
 - **RNA Sequence Input**: Load RNA sequences from FASTA file or enter sequences directly in FASTA format.
-- **Tools Integration**: Seamlessly run [MXFold2](https://github.com/mxfold/mxfold2.git), [KnotFold](https://github.com/gongtiansu/KnotFold.git), [RNAFold](https://github.com/ViennaRNA/ViennaRNA.git) and [RNAstructure](https://rna.urmc.rochester.edu/RNAstructureDownload.html) on the input sequences.
+- **Tools Integration**: Seamlessly run [MXFold2](https://github.com/mxfold/mxfold2.git), [KnotFold](https://github.com/gongtiansu/KnotFold.git), [RNAFold](https://github.com/ViennaRNA/ViennaRNA.git) and [RNAstructure](https://rna.urmc.rochester.edu/index.html) on the input sequences.
 - **Dot-Bracket Notation**: Get the predictions in a dot-bracket format for easy analysis.
 - **Result Visualization**: Generate visualizations to help interpret the predicted RNA secondary structures. Our software integrate excellent visualization tool: [Forna](http://rna.tbi.univie.ac.at/forna/)
 - **User-friendly Interface**: Simple and intuitive interface for running predictions and viewing results.
@@ -58,7 +58,8 @@ git clone https://github.com/jbindaAI/KnotFold.git
 * RNAStructure - download official command line version of RNAstructure program.
 ```bash
 wget https://rna.urmc.rochester.edu/Releases/current/RNAstructureLinuxTextInterfaces64bit.tgz
-tar -xzvf RNAstructureLinuxTextInterfaces64bit.tgz 
+tar -xzvf RNAstructureLinuxTextInterfaces64bit.tgz
+export DATAPATH=$(pwd)/RNAstructure/data_tables
 ```
 
 
