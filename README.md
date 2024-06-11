@@ -15,7 +15,7 @@
 
 
 ## Overview
-This repository contains the final project for Architecture of large projects in bioinformatics class. The goal of this project is to create an web application that facilitates the prediction of RNA secondary structures using various tools. This application integrates MXFold2, KnotFold, RNAFold and RNAstructure providing a unified interface for users to input RNA sequences, run predictions, and visualize the results.
+This repository contains the final project for Architecture of large projects in bioinformatics class. The goal of this project is to create a web application that facilitates the prediction of RNA secondary structures using various tools. This application integrates MXFold2, KnotFold, RNAFold and RNAstructure providing a unified interface for users to input RNA sequences, run predictions, and visualize the results.
 
 
 ## Features
