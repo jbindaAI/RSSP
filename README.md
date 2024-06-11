@@ -35,7 +35,7 @@ cd RSSP
 ```
 2. Create python virtual environment:
 ```python
-python3 venv -m venv
+python3 -m venv venv
 ```
 3. Activate virtual environment and install requirements:
 ```bash
