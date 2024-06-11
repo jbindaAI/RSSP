@@ -27,6 +27,12 @@ This repository contains the final project for Architecture of large projects in
 
 
 ## Setting up local app instance
+To quickly set up the app locally, you can run the `setup.sh` script. This script will create a virtual environment, install the required dependencies, and clone the necessary repositories. To run the script, execute:
+```bash
+bash setup.sh
+```
+After that, you can run the app, as shown in the [Usage](#usage) section. Otherwise, you can follow the manual installation steps below.
+
 ### Prerequisites:
 1. Clone repository and move into project directory:
 ```bash
