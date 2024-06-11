@@ -1,7 +1,7 @@
 import subprocess
 
 
-def run_mxfold2(input_file):
+def run_mxfold2(input_file: str) -> dict[str, tuple[str, str]]:
     """
     Run mxfold2 on the input file and return the results as a dictionary.
     :param input_file: A file containing the sequences to predict the secondary structure for.
