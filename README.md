@@ -34,8 +34,8 @@ git clone https://github.com/jbindaAI/RSSP.git
 cd RSSP
 ```
 2. Create python virtual environment:
-```python
-python3 venv -m venv
+```bash
+python3 -m venv venv
 ```
 3. Activate virtual environment and install requirements:
 ```bash
@@ -58,7 +58,8 @@ git clone https://github.com/gongtiansu/KnotFold.git
 * RNAStructure - download official command line version of RNAstructure program.
 ```bash
 wget https://rna.urmc.rochester.edu/Releases/current/RNAstructureLinuxTextInterfaces64bit.tgz
-tar -xzvf RNAstructureLinuxTextInterfaces64bit.tgz 
+tar -xzvf RNAstructureLinuxTextInterfaces64bit.tgz
+export DATAPATH=$(pwd)/RNAstructure/data_tables
 ```
 
 
