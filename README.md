@@ -37,16 +37,16 @@ cd RSSP
 ```python
 python3 venv -m venv
 ```
-2. Activate virtual environment and install requirements:
+3. Activate virtual environment and install requirements:
 ```bash
 source venv/bin/activate
 pip3 install -r requirements.txt
 ```
-3. Clone repositories with models source code into `models` directory:
+4. Clone repositories with models source code into `models` directory:
 ```bash
 cd models
 ```
-* MXFold2 - download wheel file and install it:
+* MXFold2 - download official wheel file and install it:
 ```bash
 wget https://github.com/mxfold/mxfold2/releases/download/v0.1.2/mxfold2-0.1.2-cp310-cp310-manylinux_2_17_x86_64.whl
 pip3 install mxfold2-0.1.2-cp310-cp310-manylinux_2_17_x86_64.whl
@@ -55,7 +55,7 @@ pip3 install mxfold2-0.1.2-cp310-cp310-manylinux_2_17_x86_64.whl
 ```bash
 git clone https://github.com/gongtiansu/KnotFold.git
 ```
-* RNAStructure - download command line version of RNAstructure program.
+* RNAStructure - download official command line version of RNAstructure program.
 ```bash
 wget https://rna.urmc.rochester.edu/Releases/current/RNAstructureLinuxTextInterfaces64bit.tgz
 tar -xzvf RNAstructureLinuxTextInterfaces64bit.tgz 
