@@ -59,7 +59,7 @@ git clone https://github.com/jbindaAI/KnotFold.git
 ```bash
 wget https://rna.urmc.rochester.edu/Releases/current/RNAstructureLinuxTextInterfaces64bit.tgz
 tar -xzvf RNAstructureLinuxTextInterfaces64bit.tgz
-export DATAPATH=$(pwd)/models/RNAstructure/data_tables
+export DATAPATH=$(pwd)/RNAstructure/data_tables
 ```
 
 
