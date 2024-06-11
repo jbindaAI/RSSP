@@ -51,9 +51,9 @@ cd models
 wget https://github.com/mxfold/mxfold2/releases/download/v0.1.2/mxfold2-0.1.2-cp310-cp310-manylinux_2_17_x86_64.whl
 pip3 install mxfold2-0.1.2-cp310-cp310-manylinux_2_17_x86_64.whl
 ```
-* KnotFold - clone official repository
+* KnotFold - clone forked repository
 ```bash
-git clone https://github.com/gongtiansu/KnotFold.git
+git clone https://github.com/jbindaAI/KnotFold.git
 ```
 * RNAStructure - download official command line version of RNAstructure program.
 ```bash
