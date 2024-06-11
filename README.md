@@ -15,14 +15,14 @@
 
 
 ## Overview
-This repository contains the final project for Architecture of large projects in bioinformatics class. The goal of this project is to create an web application that facilitates the prediction of RNA secondary structures using various tools. This application integrates MXFold2, KnotFold, RNAFold and RNAstructure providing a unified interface for users to input RNA sequences, run predictions, and visualize the results.
+This repository contains the final project for Architecture of large projects in bioinformatics class. The goal of this project is to create a web application that facilitates the prediction of RNA secondary structures using various tools. This application integrates MXFold2, KnotFold, RNAFold and RNAstructure providing a unified interface for users to input RNA sequences, run predictions, and visualize the results.
 
 
 ## Features
 - **RNA Sequence Input**: Load RNA sequences from FASTA file or enter sequences directly in FASTA format.
 - **Tools Integration**: Seamlessly run [MXFold2](https://github.com/mxfold/mxfold2.git), [KnotFold](https://github.com/gongtiansu/KnotFold.git), [RNAFold](https://github.com/ViennaRNA/ViennaRNA.git) and [RNAstructure](https://rna.urmc.rochester.edu/index.html) on the input sequences.
 - **Dot-Bracket Notation**: Get the predictions in a dot-bracket format for easy analysis.
-- **Result Visualization**: Generate visualizations to help interpret the predicted RNA secondary structures.
+- **Result Visualization**: Generate visualizations to help interpret the predicted RNA secondary structures. Our software integrate excellent visualization tool: [Forna](http://rna.tbi.univie.ac.at/forna/)
 - **User-friendly Interface**: Simple and intuitive interface for running predictions and viewing results.
 
 
@@ -34,7 +34,7 @@ git clone https://github.com/jbindaAI/RSSP.git
 cd RSSP
 ```
 2. Create python virtual environment:
-```bash
+```python
 python3 -m venv venv
 ```
 3. Activate virtual environment and install requirements:
@@ -51,9 +51,9 @@ cd models
 wget https://github.com/mxfold/mxfold2/releases/download/v0.1.2/mxfold2-0.1.2-cp310-cp310-manylinux_2_17_x86_64.whl
 pip3 install mxfold2-0.1.2-cp310-cp310-manylinux_2_17_x86_64.whl
 ```
-* KnotFold - clone official repository
+* KnotFold - clone forked repository
 ```bash
-git clone https://github.com/gongtiansu/KnotFold.git
+git clone https://github.com/jbindaAI/KnotFold.git
 ```
 * RNAStructure - download official command line version of RNAstructure program.
 ```bash
