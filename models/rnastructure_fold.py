@@ -5,7 +5,7 @@ import subprocess
 def run_rnastructure_fold(
         input_file: str,
         output_directory: str = "file_cache",
-        rnastructure_path: str = "/home/jbinda/RSSP/models/RNAstructure") -> dict[str, tuple[str, str]]:
+        rnastructure_path: str = "") -> dict[str, tuple[str, str]]:
     """
     Run RNAstructure Fold on the input file and return the results as a dictionary.
     :param input_file: A file containing the sequences to predict the secondary structure for.
